@@ -30,6 +30,7 @@ async function run() {
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
     const foodCollection = client.db("pizzanDB").collection("foods");
+    const ordersCollection = client.db("pizzanDB").collection("orders");
 
     // To get all the foods 
     app.get("/api/v1/foods", async(req, res)=> {
@@ -45,6 +46,12 @@ async function run() {
       res.send(result)
     })
 
+    app.post("/api/v1/confirmPurchase", async(req,res)=> {
+      const order = req.body;
+      const result = await ordersCollection.insertOne(order)
+      console.log(result);
+      res.send(result)
+    })
 
 
 
