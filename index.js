@@ -45,6 +45,16 @@ async function run() {
       const result = await foodCollection.findOne(query);
       res.send(result)
     })
+    // orders api
+
+    app.get("/api/v1/orders", async(req,res)=>{
+      let query = {}
+      if(req.query?.email){
+        query ={email : req.query.email}
+      }
+      const result = await ordersCollection.find(query).toArray();
+      res.send(result)
+    })
 
     app.post("/api/v1/confirmPurchase", async(req,res)=> {
       const order = req.body;
