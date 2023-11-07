@@ -41,7 +41,7 @@ async function run() {
       const result = await foodCollection.find(query).toArray();
       res.send(result)
     })
-
+    // To get single food by id 
     app.get("/api/v1/foods/:id", async(req, res)=> {
       const id = req.params.id;
       const query = {_id : new ObjectId(id)}
@@ -65,6 +65,14 @@ async function run() {
       const order = req.body;
       const result = await ordersCollection.insertOne(order)
       console.log(result);
+      res.send(result)
+    })
+
+    // Order Delete api 
+    app.delete("/api/v1/orders/:id", async(req, res)=>{
+      const id = req.params.id;
+      const query = {_id : new ObjectId(id)}
+      const result = await ordersCollection.deleteOne(query)
       res.send(result)
     })
 
