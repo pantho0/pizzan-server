@@ -34,7 +34,11 @@ async function run() {
 
     // To get all the foods 
     app.get("/api/v1/foods", async(req, res)=> {
-      const result = await foodCollection.find().toArray();
+      let query = {}
+      if(req.query?.addedBy){
+        query ={addedBy : req.query.addedBy}
+      }
+      const result = await foodCollection.find(query).toArray();
       res.send(result)
     })
 
@@ -45,6 +49,7 @@ async function run() {
       const result = await foodCollection.findOne(query);
       res.send(result)
     })
+
     // orders api
 
     app.get("/api/v1/orders", async(req,res)=>{
