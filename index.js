@@ -62,6 +62,16 @@ async function run() {
       res.send(result)
     })
 
+
+    // for add product api
+    app.post("/api/v1/addFood", async(req, res)=>{
+      const food = req.body;
+      const result = await foodCollection.insertOne(food)
+      console.log(result);
+      res.send(result)
+    })
+
+
     // orders api
 
     app.get("/api/v1/orders", async(req,res)=>{
