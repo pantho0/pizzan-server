@@ -38,14 +38,26 @@ async function run() {
       if(req.query?.addedBy){
         query ={addedBy : req.query.addedBy}
       }
-      const result = await foodCollection.find(query).toArray();
+      // Pagination 
+      const page = Number(req.query.page); //Number obj for make the url string to number value
+      const limit = Number(req.query.limit);
+      const skip = (page-1)*limit;
+      const result = await foodCollection.find(query).skip(skip).limit(limit).toArray();
       res.send(result)
+
     })
+
+    // To count total foods 
+
+    app.get("/api/v1/productcount", async(req, res) =>{
+      const result = await foodCollection.estimatedDocumentCount();
+      res.send({count: result})
+    })
+
     // To get single food by id 
     app.get("/api/v1/foods/:id", async(req, res)=> {
       const id = req.params.id;
       const query = {_id : new ObjectId(id)}
-
       const result = await foodCollection.findOne(query);
       res.send(result)
     })
