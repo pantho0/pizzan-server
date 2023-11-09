@@ -113,7 +113,38 @@ async function run() {
       console.log(result);
       res.send(result)
     })
+    // For Update Product
 
+    app.get("/update/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await foodCollection.findOne(query);
+      res.send(result)
+    })
+
+    app.put("/update/:id", async(req,res)=>{
+      const id = req.params.id;
+      console.log(id);
+      const filter = {_id : new ObjectId(id)}
+      console.log(filter);
+      const options = {upsert: true}
+      const updatedFood = {
+        $set: {
+          addedBy : data.addedBy, 
+          availableQuantity : data.availableQuantity,
+          description : data.description, 
+          foodCategory : data.foodCategory, 
+          foodImage : data.foodImage, 
+          foodName : data.foodName, 
+          foodOrigin : data.foodOrigin, 
+          madeBy : data.madeBy, 
+          orderCount : data.orderCount, 
+          price : data.price
+        } 
+      }
+      const result = await foodCollection.updateOne(filter, updatedFood, options)
+      res.send(result)
+    })
 
     // orders api
 
